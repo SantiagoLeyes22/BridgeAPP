@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.0.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bridge", "Bridge\Bridge.csproj", "{1D76DE12-6F8C-4CC5-A9FD-2AC0F12BF9A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bridge.Tests", "Bridge.Tests\Bridge.Tests.csproj", "{77026AB6-F24C-48E2-B01B-6000EBBD5B8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D76DE12-6F8C-4CC5-A9FD-2AC0F12BF9A1}.Debug|x64.ActiveCfg = Debug|x64
+		{1D76DE12-6F8C-4CC5-A9FD-2AC0F12BF9A1}.Debug|x64.Build.0 = Debug|x64
+		{1D76DE12-6F8C-4CC5-A9FD-2AC0F12BF9A1}.Release|x64.ActiveCfg = Release|x64
+		{1D76DE12-6F8C-4CC5-A9FD-2AC0F12BF9A1}.Release|x64.Build.0 = Release|x64
+		{77026AB6-F24C-48E2-B01B-6000EBBD5B8D}.Debug|x64.ActiveCfg = Debug|x64
+		{77026AB6-F24C-48E2-B01B-6000EBBD5B8D}.Debug|x64.Build.0 = Debug|x64
+		{77026AB6-F24C-48E2-B01B-6000EBBD5B8D}.Release|x64.ActiveCfg = Release|x64
+		{77026AB6-F24C-48E2-B01B-6000EBBD5B8D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+EndGlobal

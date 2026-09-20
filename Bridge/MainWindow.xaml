@@ -1,0 +1,197 @@
+<Window
+    x:Class="Bridge.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Bridge">
+
+    <Grid x:Name="RootGrid" Padding="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="OnboardingRoot">
+            <StackPanel x:Name="WelcomePanel" Spacing="22" VerticalAlignment="Center" MaxWidth="620">
+                <FontIcon Glyph="&#xE774;" FontSize="44" HorizontalAlignment="Left" />
+                <TextBlock x:Name="WelcomeTitleText" Text="Welcome" Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock
+                    x:Name="WelcomeDescriptionText"
+                    Text="Translate messages privately without leaving the application you're working in. No account is required for offline engines."
+                    FontSize="18"
+                    TextWrapping="Wrap" />
+                <ComboBox
+                    x:Name="ConfigurationLanguageComboBox"
+                    Header="Setup language"
+                    DisplayMemberPath="DisplayName"
+                    SelectionChanged="ConfigurationLanguage_SelectionChanged"
+                    HorizontalAlignment="Stretch" />
+                <StackPanel Spacing="10">
+                    <TextBlock x:Name="WelcomeStep1Text" Text="1. Select text." />
+                    <TextBlock x:Name="WelcomeStep2Text" Text="2. Press Ctrl + Shift + T." />
+                    <TextBlock x:Name="WelcomeStep3Text" Text="3. See the translation." />
+                    <TextBlock x:Name="WelcomeStep4Text" Text="4. Write and select your response." />
+                    <TextBlock x:Name="WelcomeStep5Text" Text="5. Press Ctrl + Shift + Enter." />
+                </StackPanel>
+                <Button x:Name="WelcomeContinueButton" Content="Continue" Click="WelcomeContinue_Click" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right" />
+            </StackPanel>
+
+            <StackPanel x:Name="PrimaryLanguagePanel" Visibility="Collapsed" Spacing="22" VerticalAlignment="Center" MaxWidth="620">
+                <TextBlock x:Name="PrimaryLanguageTitleText" Text="Primary language" Style="{StaticResource TitleTextBlockStyle}" />
+                <TextBlock x:Name="PrimaryLanguageDescriptionText" Text="Incoming messages will be translated into this language." TextWrapping="Wrap" />
+                <ComboBox
+                    x:Name="OnboardingLanguageComboBox"
+                    Header="Language"
+                    DisplayMemberPath="DisplayName"
+                    HorizontalAlignment="Stretch" />
+                <Button x:Name="LanguageContinueButton" Content="Continue" Click="LanguageContinue_Click" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right" />
+            </StackPanel>
+
+            <ScrollViewer x:Name="EnginePanel" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="16" MaxWidth="660">
+                    <TextBlock x:Name="EngineTitleText" Text="Choose the translation engine" Style="{StaticResource TitleTextBlockStyle}" />
+                    <TextBlock
+                        x:Name="EngineIntroText"
+                        Text="The standard offline engine is the easiest option. TranslateGemma improves contextual quality but needs more memory and a larger download."
+                        TextWrapping="Wrap" />
+                    <ComboBox
+                        x:Name="OnboardingEngineComboBox"
+                        Header="Translation engine"
+                        DisplayMemberPath="DisplayName"
+                        SelectionChanged="OnboardingEngine_SelectionChanged"
+                        HorizontalAlignment="Stretch" />
+                    <Border BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" Padding="16">
+                        <StackPanel Spacing="8">
+                            <TextBlock x:Name="OnboardingEngineDescription" FontWeight="SemiBold" TextWrapping="Wrap" />
+                            <TextBlock x:Name="OnboardingEngineRequirements" TextWrapping="Wrap" />
+                            <TextBlock x:Name="OnboardingEnginePrivacy" TextWrapping="Wrap" Opacity="0.75" />
+                            <TextBlock x:Name="OnboardingHardwareSummary" TextWrapping="Wrap" />
+                            <TextBlock x:Name="OnboardingCompatibilityText" TextWrapping="Wrap" FontWeight="SemiBold" />
+                            <TextBlock x:Name="OnboardingEngineStatusText" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                    <StackPanel x:Name="OnboardingGemmaTermsPanel" Visibility="Collapsed" Spacing="4">
+                        <CheckBox x:Name="OnboardingGemmaTermsCheckBox" Content="I accept the Gemma Terms of Use for this local model." />
+                        <HyperlinkButton x:Name="OnboardingGemmaTermsLink" Content="Read the Gemma Terms of Use" Click="OpenGemmaTerms_Click" Padding="0" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <InfoBar x:Name="OnboardingInfoBar" IsOpen="False" IsClosable="False" />
+                    <StackPanel x:Name="OnboardingProgressPanel" Visibility="Collapsed" Spacing="6">
+                        <ProgressBar x:Name="OnboardingProgress" Minimum="0" Maximum="100" IsIndeterminate="True" />
+                        <TextBlock x:Name="OnboardingProgressText" Text="Preparing engine…" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                        <Button x:Name="OnboardingInstallOllamaButton" Content="Install Ollama" Click="OpenOllama_Click" Visibility="Collapsed" />
+                        <Button x:Name="OnboardingSignInButton" Content="Sign in with Microsoft" Click="SignIn_Click" Visibility="Collapsed" />
+                        <Button x:Name="OnboardingPrepareEngineButton" Content="Download and prepare" Click="PrepareOnboardingEngine_Click" Style="{StaticResource AccentButtonStyle}" />
+                        <Button x:Name="FinishOnboardingButton" Content="Start using Bridge" Click="FinishOnboarding_Click" Visibility="Collapsed" Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <ScrollViewer x:Name="SettingsRoot" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="24" MaxWidth="720">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Settings" Style="{StaticResource TitleTextBlockStyle}" />
+                    <TextBlock Text="Bridge runs from the system tray." Opacity="0.7" />
+                </StackPanel>
+
+                <StackPanel Spacing="12">
+                    <TextBlock Text="TRANSLATION ENGINE" FontWeight="SemiBold" Opacity="0.65" />
+                    <ComboBox
+                        x:Name="SettingsEngineComboBox"
+                        Header="Engine"
+                        DisplayMemberPath="DisplayName"
+                        SelectionChanged="SettingsEngine_SelectionChanged"
+                        HorizontalAlignment="Stretch" />
+                    <Border BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" Padding="14">
+                        <StackPanel Spacing="7">
+                            <TextBlock x:Name="SettingsEngineDescription" FontWeight="SemiBold" TextWrapping="Wrap" />
+                            <TextBlock x:Name="SettingsEngineRequirements" TextWrapping="Wrap" />
+                            <TextBlock x:Name="SettingsEnginePrivacy" TextWrapping="Wrap" Opacity="0.75" />
+                            <TextBlock x:Name="SettingsHardwareSummary" TextWrapping="Wrap" />
+                            <TextBlock x:Name="SettingsCompatibilityText" TextWrapping="Wrap" FontWeight="SemiBold" />
+                            <TextBlock x:Name="SettingsEngineStatusText" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                    <StackPanel x:Name="SettingsGemmaTermsPanel" Visibility="Collapsed" Spacing="4">
+                        <CheckBox x:Name="SettingsGemmaTermsCheckBox" Content="I accept the Gemma Terms of Use for this local model." />
+                        <HyperlinkButton Content="Read the Gemma Terms of Use" Click="OpenGemmaTerms_Click" Padding="0" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel x:Name="SettingsEngineProgressPanel" Visibility="Collapsed" Spacing="6">
+                        <ProgressBar x:Name="SettingsEngineProgress" Minimum="0" Maximum="100" IsIndeterminate="True" />
+                        <TextBlock x:Name="SettingsEngineProgressText" Text="Preparing engine…" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button x:Name="SettingsInstallOllamaButton" Content="Download Ollama (external)" Click="OpenOllama_Click" Visibility="Collapsed" />
+                        <Button x:Name="SettingsPrepareEngineButton" Content="Download / verify engine" Click="PrepareSettingsEngine_Click" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Spacing="12">
+                    <TextBlock Text="GENERAL" FontWeight="SemiBold" Opacity="0.65" />
+                    <ComboBox
+                        x:Name="SettingsLanguageComboBox"
+                        Header="Primary language"
+                        DisplayMemberPath="DisplayName"
+                        HorizontalAlignment="Stretch" />
+                    <ToggleSwitch x:Name="StartWithWindowsToggle" Header="Start Bridge with Windows" />
+                    <ToggleSwitch x:Name="FailureNotificationToggle" Header="Show notification when translation fails" />
+                    <ComboBox x:Name="ThemeComboBox" Header="Theme" HorizontalAlignment="Stretch">
+                        <ComboBoxItem Content="System" />
+                        <ComboBoxItem Content="Light" />
+                        <ComboBoxItem Content="Dark" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock Text="OPTIONAL MICROSOFT 365 COPILOT" FontWeight="SemiBold" Opacity="0.65" />
+                    <TextBlock x:Name="CopilotStatusText" Text="Status: Not connected" />
+                    <TextBlock x:Name="CopilotAccountText" Text="Account: —" TextWrapping="Wrap" />
+                    <TextBlock Text="Copilot remains optional and requires publisher configuration, tenant approval, and a Microsoft 365 Copilot license." TextWrapping="Wrap" Opacity="0.75" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button x:Name="SettingsSignInButton" Content="Sign in" Click="SignIn_Click" />
+                        <Button x:Name="SettingsSignOutButton" Content="Sign out" Click="SignOut_Click" Visibility="Collapsed" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock Text="SHORTCUTS" FontWeight="SemiBold" Opacity="0.65" />
+                    <Grid ColumnSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Translate selection" />
+                        <TextBlock Grid.Column="1" Text="Ctrl + Shift + T" FontFamily="Consolas" />
+                    </Grid>
+                    <Grid ColumnSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Translate response" />
+                        <TextBlock Grid.Column="1" Text="Ctrl + Shift + Enter" FontFamily="Consolas" />
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Spacing="8">
+                    <TextBlock Text="PRIVACY" FontWeight="SemiBold" Opacity="0.65" />
+                    <TextBlock Text="Offline engines process selected text on this PC and work without internet after their model is downloaded." TextWrapping="Wrap" />
+                    <TextBlock Text="The application does not continuously monitor the screen and does not store conversation history." TextWrapping="Wrap" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                    <Button Content="Hide to system tray" Click="Hide_Click" />
+                    <Button Content="Save settings" Click="SaveSettings_Click" Style="{StaticResource AccentButtonStyle}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <InfoBar
+            x:Name="WindowInfoBar"
+            Grid.Row="1"
+            Margin="0,16,0,0"
+            IsOpen="False"
+            IsClosable="True" />
+    </Grid>
+</Window>
