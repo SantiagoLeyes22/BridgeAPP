@@ -1,12 +1,12 @@
 # Bridge for Windows
 
-[Español](#español) · [English](#english) · [Build and development](#build-and-development)
+[Español](#español) · [English](#english) · [Português (Brasil)](#português-brasil) · [Build and development](#build-and-development)
 
 ## Español
 
 Bridge es una aplicación nativa para Windows 10/11 que traduce el texto seleccionado sin obligarte a salir de la aplicación en la que estás trabajando. Utiliza atajos globales, el portapapeles de Windows y una ventana flotante compacta construida con WinUI 3.
 
-La aplicación puede trabajar de forma local y privada. No guarda un historial de traducciones, no realiza capturas de pantalla y solamente lee el portapapeles cuando el usuario activa un atajo o una acción desde el icono de la bandeja.
+La aplicación puede trabajar de forma local y privada. No guarda un historial de traducciones, no realiza capturas de pantalla y solamente lee el portapapeles al activar un atajo, una acción desde el icono de la bandeja o al seleccionar texto mientras la ventana flotante está abierta.
 
 ### Descargar la versión de prueba
 
@@ -63,7 +63,7 @@ Ningún sistema de traducción automática garantiza resultados perfectos. Los t
 
 Bridge is a native Windows 10/11 application that translates selected text without making you leave the application in which you are working. It uses global shortcuts, the Windows clipboard, and a compact WinUI 3 overlay.
 
-The application can operate locally and privately. It does not store translation history, take screenshots, or read the clipboard unless the user activates a shortcut or tray action.
+The application can operate locally and privately. It does not store translation history or take screenshots. It reads the clipboard when the user activates a shortcut or tray action, or selects text while the overlay is open.
 
 ### Download the test build
 
@@ -115,6 +115,61 @@ The standard offline engine does not require Ollama, an account, an API key, or 
 No automatic translation system guarantees perfect output. Legal, medical, financial, or safety-related text should be reviewed by a person.
 
 ---
+
+## Português (Brasil)
+
+Bridge é um aplicativo nativo para Windows 10/11 que traduz o texto selecionado sem que você precise sair do aplicativo em que está trabalhando. Ele usa atalhos globais, a área de transferência do Windows e uma janela flutuante compacta criada com WinUI 3.
+
+O aplicativo pode funcionar localmente e de forma privada. Ele não armazena um histórico de traduções nem faz capturas de tela. A área de transferência é lida quando o usuário aciona um atalho ou uma ação pelo ícone na bandeja do sistema, ou seleciona texto enquanto a janela flutuante está aberta.
+
+### Baixar a versão de teste
+
+A versão de teste atual para x64 é assinada com um certificado autoassinado:
+
+- [Baixar o pacote completo recomendado](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64_test-bundle.zip)
+- [Baixar apenas o MSIX](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64.msix)
+- [Baixar o certificado de teste](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge-TestCertificate.cer)
+
+> **Importante:** este pacote ainda não usa um certificado de uma autoridade confiável. O Windows exige a instalação manual do certificado de teste antes de abrir o MSIX. Instale-o somente se você baixou os arquivos deste repositório oficial.
+
+### Instalação pela interface gráfica, sem PowerShell
+
+1. Baixe `Bridge_1.0.0.0_x64.msix` e `Bridge-TestCertificate.cer` da mesma versão publicada.
+2. Abra `Bridge-TestCertificate.cer` e selecione **Instalar Certificado**.
+3. Selecione **Computador Local** e autorize a solicitação de administrador.
+4. Selecione **Colocar todos os certificados no repositório a seguir**.
+5. Escolha **Pessoas Confiáveis** e conclua o assistente.
+6. Abra `Bridge_1.0.0.0_x64.msix` e selecione **Instalar**.
+7. Procure **Bridge** no menu Iniciar.
+
+O ZIP também inclui `Install-Bridge.ps1` como alternativa automática. O script solicita permissão de administrador, confia temporariamente no certificado, instala o Bridge e depois remove essa confiança.
+
+### O que o Bridge faz
+
+- `Ctrl + Shift + T`: captura o texto selecionado e o traduz para o idioma principal configurado ou para o último idioma de destino escolhido na janela flutuante. As traduções para português usam o português do Brasil (`pt-BR`).
+- `Ctrl + Shift + Enter`: traduz uma resposta inicialmente para inglês ou para o último idioma de destino escolhido na janela flutuante. A escolha é compartilhada com `Ctrl + Shift + T` e permanece após reiniciar o Bridge.
+- A janela flutuante permite **Copiar**, **Substituir** ou **Fechar** o resultado.
+- Enquanto a janela flutuante estiver aberta, selecionar outro texto com o mouse ou o teclado atualizará a tradução no mesmo modo e idioma. Ao fechá-la, a detecção automática para.
+- O Bridge nunca pressiona Enviar, Enter, Responder nem Publicar pelo usuário.
+- O mecanismo padrão usa modelos do Mozilla Firefox Translations com Bergamot e funciona sem conexão após o download dos idiomas.
+- Os mecanismos TranslateGemma são opcionais e funcionam localmente por meio do Ollama.
+
+### Ollama e modelos de IA
+
+O Ollama não está incluído no MSIX porque seu instalador e seus modelos são consideravelmente maiores que o Bridge. Se você escolher TranslateGemma, o Bridge direcionará você para o [download oficial do Ollama](https://ollama.com/download/windows). Depois de instalar e iniciar o Ollama, o Bridge poderá baixar o modelo selecionado.
+
+O mecanismo offline padrão não exige Ollama, conta, chave de API nem licença do Microsoft 365.
+
+### Privacidade e requisitos
+
+- Windows 10 versão 2004 ou posterior, ou Windows 11, x64.
+- Os mecanismos offline processam o texto selecionado inteiramente no computador.
+- O Bridge não inclui telemetria nem análise de uso e não armazena o texto traduzido.
+- Os diagnósticos são salvos sem o texto selecionado ou traduzido em `%LOCALAPPDATA%\Bridge\Logs\diagnostic.log`.
+- O TranslateGemma se comunica apenas com o Ollama em `127.0.0.1:11434`.
+- O primeiro download de um modelo exige conexão com a Internet.
+
+Nenhum sistema de tradução automática garante resultados perfeitos. Textos jurídicos, médicos, financeiros ou relacionados à segurança devem ser revisados por uma pessoa.
 
 ## Build and development
 

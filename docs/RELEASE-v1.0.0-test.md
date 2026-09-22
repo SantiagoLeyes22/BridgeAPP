@@ -1,4 +1,4 @@
-# Bridge 1.0.0 — versión de prueba / test release
+# Bridge 1.0.0 — versión de prueba / test release / versão de teste
 
 ## Español
 
@@ -65,3 +65,36 @@ it only when the files were downloaded from this official repository.
 - MSIX SHA-256: `1CFB7D87529641B5E4838709144900C43929DB45480F27263C131F689A8250E9`
 - Certificate SHA-256: `7BED89231ED358526D8CBFEA0A5155D38172006DE4856FD9A3DD0D85F795D814`
 - ZIP SHA-256: `D5BDC0D2E421AB39753AB5F0CF4BADA7BC0EF45A81FACF4F3C1C187B8CCF9A03`
+
+## Português (Brasil)
+
+O Bridge traduz o texto selecionado diretamente em qualquer aplicativo do
+Windows por meio de uma janela flutuante compacta. O mecanismo padrão processa
+as traduções localmente depois que os modelos são baixados. O TranslateGemma
+é opcional e exige a instalação separada do Ollama.
+
+### Baixar
+
+Recomendamos baixar `Bridge_1.0.0.0_x64_test-bundle.zip`, que contém:
+
+- `Bridge_1.0.0.0_x64.msix`
+- `Bridge-TestCertificate.cer`
+- `Install-Bridge.ps1`
+- `INSTALL.md`
+
+### Instalação sem PowerShell
+
+1. Abra `Bridge-TestCertificate.cer`.
+2. Selecione **Instalar Certificado > Computador Local**.
+3. Coloque-o no repositório de certificados **Pessoas Confiáveis**.
+4. Abra `Bridge_1.0.0.0_x64.msix` e selecione **Instalar**.
+
+O certificado é autoassinado e se destina apenas a esta versão de teste.
+Instale-o somente se você baixou os arquivos deste repositório oficial.
+
+### Verificação
+
+- Impressão digital SHA-1 do certificado: `394C9680C86513514DE4F97B69F4CD40A888370D`
+- SHA-256 do MSIX: `1CFB7D87529641B5E4838709144900C43929DB45480F27263C131F689A8250E9`
+- SHA-256 do certificado: `7BED89231ED358526D8CBFEA0A5155D38172006DE4856FD9A3DD0D85F795D814`
+- SHA-256 do ZIP: `D5BDC0D2E421AB39753AB5F0CF4BADA7BC0EF45A81FACF4F3C1C187B8CCF9A03`
