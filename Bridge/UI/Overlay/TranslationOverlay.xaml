@@ -79,7 +79,7 @@
 
         <StackPanel x:Name="ResultButtons" Grid.Row="2" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" Visibility="Collapsed">
             <Button Content="Copy" Click="Copy_Click" />
-            <Button Content="Replace" Click="Replace_Click" Style="{StaticResource AccentButtonStyle}" />
+            <Button x:Name="ReplaceButton" Content="Replace" Click="Replace_Click" Style="{StaticResource AccentButtonStyle}" />
             <Button Content="Close" Click="Close_Click" />
         </StackPanel>
 

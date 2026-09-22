@@ -36,6 +36,7 @@ public partial class App : Application
             services.AddSingleton<NativeWindowService>();
             services.AddSingleton<IWindowHandleProvider, WindowHandleProvider>();
             services.AddSingleton<IGlobalHotkeyService, GlobalHotkeyService>();
+            services.AddSingleton<AutomaticSelectionMonitor>();
             services.AddSingleton<IInputSimulationService, InputSimulationService>();
             services.AddSingleton<IForegroundWindowService, ForegroundWindowService>();
             services.AddSingleton<IClipboardService, ClipboardService>();

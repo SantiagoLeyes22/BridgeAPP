@@ -18,8 +18,7 @@ internal static class TranslationResponseParser
                 var translatedText = GetString(root, "translatedText");
                 if (!string.IsNullOrWhiteSpace(translatedText))
                 {
-                    var target = LanguageDefinition.Supported.FirstOrDefault(language =>
-                        string.Equals(language.DisplayName, targetLanguage, StringComparison.OrdinalIgnoreCase));
+                    var target = LanguageDefinition.Find(targetLanguage);
                     return new TranslationResult(
                         GetString(root, "detectedLanguage") ?? "Detected language",
                         GetString(root, "detectedLanguageCode") ?? string.Empty,
@@ -41,8 +40,7 @@ internal static class TranslationResponseParser
                 "Copilot returned no usable translation.");
         }
 
-        var fallbackTarget = LanguageDefinition.Supported.FirstOrDefault(language =>
-            string.Equals(language.DisplayName, targetLanguage, StringComparison.OrdinalIgnoreCase));
+        var fallbackTarget = LanguageDefinition.Find(targetLanguage);
         return new TranslationResult(
             "Detected language",
             string.Empty,

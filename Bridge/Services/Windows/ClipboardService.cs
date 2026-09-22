@@ -25,7 +25,8 @@ public sealed class ClipboardService : IClipboardService
 
     public async Task<SelectedTextCapture?> CaptureSelectedTextAsync(
         nint sourceWindow,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool restoreSourceWindow = true)
     {
         sourceWindow = sourceWindow != 0 ? sourceWindow : _foregroundWindow.GetForegroundWindow();
         if (sourceWindow == 0)
@@ -42,6 +43,11 @@ public sealed class ClipboardService : IClipboardService
 
         if (_foregroundWindow.GetForegroundWindow() != sourceWindow)
         {
+            if (!restoreSourceWindow)
+            {
+                return null;
+            }
+
             if (!_foregroundWindow.RestoreForegroundWindow(sourceWindow))
             {
                 _logger.Error("The source window could not be restored before selection capture.");

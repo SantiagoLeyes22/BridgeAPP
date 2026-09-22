@@ -29,7 +29,7 @@ public sealed partial class MainWindow : Window
     [
         new("es", "Español"),
         new("en", "English"),
-        new("pt", "Português")
+        new("pt", "Português (Brasil)")
     ];
 
     public MainWindow(

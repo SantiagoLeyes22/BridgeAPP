@@ -32,9 +32,10 @@ El ZIP también incluye `Install-Bridge.ps1` como alternativa automática. El sc
 
 ### Qué hace Bridge
 
-- `Ctrl + Shift + T`: captura el texto seleccionado, detecta localmente si está en inglés, español o portugués y lo traduce al idioma principal configurado.
-- `Ctrl + Shift + Enter`: traduce una respuesta al último idioma extranjero detectado.
+- `Ctrl + Shift + T`: captura el texto seleccionado y lo traduce al idioma principal configurado o al último idioma de destino elegido en la ventana flotante. Las salidas en portugués usan portugués de Brasil (`pt-BR`).
+- `Ctrl + Shift + Enter`: traduce una respuesta al inglés inicialmente o al último idioma de destino elegido en la ventana flotante. La elección se comparte con `Ctrl + Shift + T` y se conserva al reiniciar Bridge.
 - La ventana flotante permite **Copiar**, **Reemplazar** o **Cerrar** el resultado.
+- Mientras la ventana flotante está abierta, seleccionar otro texto con el mouse o el teclado actualiza la traducción en el mismo modo e idioma. Al cerrarla, la detección automática se detiene.
 - Bridge nunca presiona Enviar, Enter, Responder ni Publicar por el usuario.
 - El motor estándar usa modelos de Mozilla Firefox Translations con Bergamot y funciona sin conexión después de descargar los idiomas.
 - Los motores TranslateGemma son opcionales y funcionan localmente mediante Ollama.
@@ -88,9 +89,10 @@ The ZIP also contains `Install-Bridge.ps1` as an automated alternative. The scri
 
 ### What Bridge does
 
-- `Ctrl + Shift + T`: captures the selected text, locally detects English, Spanish, or Portuguese, and translates it into the configured primary language.
-- `Ctrl + Shift + Enter`: translates a selected response into the most recently detected foreign language.
+- `Ctrl + Shift + T`: captures selected text and translates it into the configured primary language or the most recently chosen target language in the overlay. Portuguese output targets Brazilian Portuguese (`pt-BR`).
+- `Ctrl + Shift + Enter`: translates a selected response into English initially or the most recently chosen target language in the overlay. The choice is shared with `Ctrl + Shift + T` and persists after restarting Bridge.
 - The overlay provides **Copy**, **Replace**, and **Close** actions.
+- While the overlay is open, selecting more text with the mouse or keyboard updates the translation in the same mode and language. Closing the overlay stops automatic detection.
 - Bridge never presses Send, Enter, Reply, or Submit for the user.
 - The standard engine uses Mozilla Firefox Translations models with Bergamot and works offline after the language models are downloaded.
 - TranslateGemma engines are optional and run locally through Ollama.
@@ -126,7 +128,7 @@ No automatic translation system guarantees perfect output. Legal, medical, finan
 | TranslateGemma 27B | Approximately 17 GB plus Ollama | 32 GB RAM, 12 logical cores, 24 GB free; 20 GB VRAM recommended | None | Yes |
 | Microsoft 365 Copilot | None locally | 4 GB RAM | Work account, tenant approval, and Copilot license | No |
 
-Spanish-to-Portuguese and Portuguese-to-Spanish translations use English as a pivot in the standard engine. TranslateGemma handles all supported directions in one model. Microsoft 365 Copilot remains an optional engine for organizations that have already configured, approved, and licensed it.
+Spanish-to-Brazilian-Portuguese and Portuguese-to-Spanish translations use English as a pivot in the standard engine. Mozilla's model identifiers remain the generic `pt`, while Bridge presents and requests Brazilian Portuguese (`pt-BR`). TranslateGemma handles all supported directions in one model. Microsoft 365 Copilot remains an optional engine for organizations that have already configured, approved, and licensed it.
 
 ### Technology
 

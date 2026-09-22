@@ -48,8 +48,11 @@ public sealed partial class TranslationOverlay : Window
     public event EventHandler? CopyRequested;
     public event EventHandler? ReplaceRequested;
     public event EventHandler<RetranslationOptions>? RetranslateRequested;
+    public event EventHandler<bool>? OpenStateChanged;
 
-    public void ShowLoading(string providerName)
+    public bool IsOpen => AppWindow.IsVisible;
+
+    public void ShowLoading(string providerName, bool activateWindow = true)
     {
         DirectionText.Text = $"Translating with {providerName}";
         ProviderText.Text = providerName;
@@ -60,13 +63,14 @@ public sealed partial class TranslationOverlay : Window
         ErrorPanel.Visibility = Visibility.Collapsed;
         ResultButtons.Visibility = Visibility.Collapsed;
         ErrorCloseButton.Visibility = Visibility.Collapsed;
-        ShowNearPointer();
+        ShowNearPointer(activateWindow);
     }
 
     public void ShowResult(
         TranslationResult result,
         TranslationStyleDefinition style,
-        bool nativeStyleSupport)
+        bool nativeStyleSupport,
+        bool activateWindow = true)
     {
         DirectionText.Text = $"{result.DetectedLanguage} → {result.TargetLanguage}";
         TranslatedText.Text = result.TranslatedText;
@@ -87,11 +91,12 @@ public sealed partial class TranslationOverlay : Window
         ResultPanel.Visibility = Visibility.Visible;
         ErrorPanel.Visibility = Visibility.Collapsed;
         ResultButtons.Visibility = Visibility.Visible;
+        ReplaceButton.IsEnabled = true;
         ErrorCloseButton.Visibility = Visibility.Collapsed;
-        ShowNearPointer();
+        ShowNearPointer(activateWindow);
     }
 
-    public void ShowError(string providerName, string message)
+    public void ShowError(string providerName, string message, bool activateWindow = true)
     {
         DirectionText.Text = "Translation unavailable";
         ProviderText.Text = providerName;
@@ -103,10 +108,21 @@ public sealed partial class TranslationOverlay : Window
         ErrorPanel.Visibility = Visibility.Visible;
         ResultButtons.Visibility = Visibility.Collapsed;
         ErrorCloseButton.Visibility = Visibility.Visible;
-        ShowNearPointer();
+        ShowNearPointer(activateWindow);
     }
 
-    public void HideOverlay() => AppWindow.Hide();
+    public void SetReplacementEnabled(bool enabled) => ReplaceButton.IsEnabled = enabled;
+
+    public void HideOverlay()
+    {
+        if (!AppWindow.IsVisible)
+        {
+            return;
+        }
+
+        AppWindow.Hide();
+        OpenStateChanged?.Invoke(this, false);
+    }
 
     public void ClosePermanently()
     {
@@ -114,7 +130,7 @@ public sealed partial class TranslationOverlay : Window
         Close();
     }
 
-    private void ShowNearPointer()
+    private void ShowNearPointer(bool activateWindow)
     {
         RootGrid.RequestedTheme = _settingsService.Settings.Theme switch
         {
@@ -122,21 +138,31 @@ public sealed partial class TranslationOverlay : Window
             "Dark" => ElementTheme.Dark,
             _ => ElementTheme.Default
         };
-        var (x, y) = _foregroundWindow.GetOverlayPosition(OverlayWidth, OverlayHeight);
-        AppWindow.MoveAndResize(new RectInt32(x, y, OverlayWidth, OverlayHeight));
-        Activate();
-        RootGrid.Focus(FocusState.Programmatic);
+        var wasOpen = AppWindow.IsVisible;
+        if (activateWindow || !wasOpen)
+        {
+            var (x, y) = _foregroundWindow.GetOverlayPosition(OverlayWidth, OverlayHeight);
+            AppWindow.MoveAndResize(new RectInt32(x, y, OverlayWidth, OverlayHeight));
+            Activate();
+            RootGrid.Focus(FocusState.Programmatic);
+        }
+
+        if (!wasOpen && AppWindow.IsVisible)
+        {
+            OpenStateChanged?.Invoke(this, true);
+        }
     }
 
     private void OnClosing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         if (_allowClose)
         {
+            OpenStateChanged?.Invoke(this, false);
             return;
         }
 
         args.Cancel = true;
-        AppWindow.Hide();
+        HideOverlay();
     }
 
     private void Copy_Click(object sender, RoutedEventArgs e) => CopyRequested?.Invoke(this, EventArgs.Empty);

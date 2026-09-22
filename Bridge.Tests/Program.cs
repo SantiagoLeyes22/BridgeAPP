@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Bridge.Models;
 using Bridge.Services.Infrastructure;
 using Bridge.Services.Localization;
@@ -16,9 +17,12 @@ var tests = new (string Name, Action Execute)[]
     ("Falls back to usable plain text", FallsBackToPlainText),
     ("Prompt preserves technical input and demands JSON", PromptPreservesTechnicalInput),
     ("Applies the selected translation style", AppliesTranslationStyle),
+    ("Targets Brazilian Portuguese explicitly", TargetsBrazilianPortuguese),
     ("Ships the three V1 languages", SupportsRequiredLanguages),
     ("Applies a bounded V1 input limit", EnforcesInputLimit),
     ("Defaults response translation to English", DefaultsResponseTranslationToEnglish),
+    ("Remembers the chosen language for both shortcuts", RemembersChosenLanguageForBothShortcuts),
+    ("Recognizes completed selections without triggering on ordinary clicks", RecognizesCompletedSelections),
     ("Defaults translation style to balanced", DefaultsTranslationStyleToBalanced),
     ("Defaults to the no-login offline engine", DefaultsToOfflineEngine),
     ("Evaluates high-quality hardware requirements", EvaluatesHardwareRequirements),
@@ -91,10 +95,35 @@ static void AppliesTranslationStyle()
 {
     var prompt = TranslationPromptBuilder.Build(
         "Please review the request.",
-        "Portuguese",
+        LanguageDefinition.Portuguese.DisplayName,
         TranslationStyleDefinition.Find(TranslationStyleDefinition.ProfessionalId));
     Contains("Professional", prompt);
     Contains("corporate language", prompt);
+}
+
+static void TargetsBrazilianPortuguese()
+{
+    var portuguese = LanguageDefinition.Portuguese;
+    Equal("pt", portuguese.Code);
+    Equal("pt-BR", portuguese.CultureCode);
+    Equal("Brazilian Portuguese", portuguese.DisplayName);
+    Equal(portuguese, LanguageDefinition.Find("Portuguese"));
+    Equal(portuguese, LanguageDefinition.FindByCode("pt-BR"));
+
+    var structuredPrompt = TranslationPromptBuilder.Build(
+        "Please restart the computer.",
+        portuguese.DisplayName,
+        TranslationStyleDefinition.Balanced);
+    Contains("Brazilian Portuguese (pt-BR)", structuredPrompt);
+    Contains("Do not use European Portuguese", structuredPrompt);
+
+    var localPrompt = OllamaTranslationProvider.BuildPrompt(
+        LanguageDefinition.English,
+        portuguese,
+        TranslationStyleDefinition.Balanced,
+        "Please restart the computer.");
+    Contains("Brazilian Portuguese (pt-BR)", localPrompt);
+    Contains("Do not use European Portuguese", localPrompt);
 }
 
 static void SupportsRequiredLanguages()
@@ -103,6 +132,7 @@ static void SupportsRequiredLanguages()
     Equal("es", LanguageDefinition.Supported[0].Code);
     Equal("en", LanguageDefinition.Supported[1].Code);
     Equal("pt", LanguageDefinition.Supported[2].Code);
+    Equal("pt-BR", LanguageDefinition.Supported[2].CultureCode);
 }
 
 static void EnforcesInputLimit() => Equal(8_000, TranslationCoordinator.MaximumInputCharacters);
@@ -110,6 +140,46 @@ static void EnforcesInputLimit() => Equal(8_000, TranslationCoordinator.MaximumI
 static void DefaultsResponseTranslationToEnglish() =>
     Equal("en", TranslationCoordinator.DefaultResponseLanguageCode);
 
+static void RemembersChosenLanguageForBothShortcuts()
+{
+    var settings = new AppSettings { PrimaryLanguageCode = "es" };
+    Equal("es", TranslationTargetLanguagePreference.Resolve(settings, TranslationHotkey.TranslateSelection).Code);
+    Equal("en", TranslationTargetLanguagePreference.Resolve(settings, TranslationHotkey.TranslateResponse).Code);
+
+    settings.LastTargetLanguageCode = "pt";
+    var restored = JsonSerializer.Deserialize<AppSettings>(JsonSerializer.Serialize(settings))!;
+    Equal("pt", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateSelection).Code);
+    Equal("pt", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateResponse).Code);
+}
+
+static void RecognizesCompletedSelections()
+{
+    var gestures = new SelectionGestureDetector();
+    gestures.MouseDown(10, 10);
+    Equal(false, gestures.MouseUp((nint)1, 10, 10, 100));
+    gestures.MouseDown(10, 10);
+    Equal(true, gestures.MouseUp((nint)1, 10, 10, 250)); // Double click
+
+    gestures.Reset();
+    gestures.MouseDown(10, 10);
+    gestures.MouseMove(30, 10);
+    Equal(true, gestures.MouseUp((nint)1, 30, 10, 400)); // Drag selection
+
+    gestures.Reset();
+    gestures.KeyDown(0x10); // Shift
+    gestures.KeyDown(0x27); // Right arrow
+    Equal(true, gestures.KeyUp(0x10));
+
+    gestures.Reset();
+    gestures.KeyDown(0x10);
+    gestures.KeyDown(0x41); // Uppercase A is not a selection
+    Equal(false, gestures.KeyUp(0x10));
+
+    gestures.Reset();
+    gestures.KeyDown(0x11); // Control
+    gestures.KeyDown(0x41);
+    Equal(true, gestures.KeyUp(0x41)); // Ctrl+A
+}
 static void DefaultsTranslationStyleToBalanced() =>
     Equal(TranslationStyleDefinition.BalancedId, TranslationStyleDefinition.Balanced.Id);
 
@@ -141,6 +211,7 @@ static void LocalizesOnboarding()
     Equal("Idioma da configuração", OnboardingLocalizer.Text("pt", "SetupLanguage"));
     Equal("Descargar Ollama (externo)", OnboardingLocalizer.Text("es", "InstallOllama"));
     Equal("Español", OnboardingLocalizer.LanguageName("es", LanguageDefinition.Spanish));
+    Equal("Português (Brasil)", OnboardingLocalizer.LanguageName("pt", LanguageDefinition.Portuguese));
     Contains(
         "no viene incluido con Bridge",
         OnboardingLocalizer.EnginePrivacy(

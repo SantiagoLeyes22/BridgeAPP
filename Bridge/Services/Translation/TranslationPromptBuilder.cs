@@ -10,9 +10,14 @@ internal static class TranslationPromptBuilder
         string targetLanguage,
         TranslationStyleDefinition style)
     {
+        var target = LanguageDefinition.Find(targetLanguage);
+        var localeRequirement = target?.Code == "pt"
+            ? "Use Brazilian Portuguese (pt-BR) spelling, grammar, and vocabulary. Prefer arquivo, tela, usuário, senha, baixar, aplicativo, and você. Do not use European Portuguese forms such as ficheiro, ecrã, utilizador, palavra-passe, or descarregar."
+            : "Use the standard conventions of the requested target language.";
         var input = JsonSerializer.Serialize(new
         {
-            targetLanguage,
+            targetLanguage = target?.DisplayName ?? targetLanguage,
+            targetLocale = target?.CultureCode,
             translationStyle = style.DisplayName,
             styleInstruction = style.PromptInstruction,
             text
@@ -30,6 +35,7 @@ internal static class TranslationPromptBuilder
             - Preserve technical terminology, product names, URLs, email addresses, IP addresses, hostnames, ticket numbers, commands, error codes, file paths, code, and usernames where possible.
             - Do not translate Microsoft product names unless a universally accepted localized name exists.
             - Keep the tone professional and natural.
+            - Target locale requirement: {{localeRequirement}}
             - Do not use enterprise data or prior conversation content.
 
             Return exactly one JSON object and no Markdown, with this schema:

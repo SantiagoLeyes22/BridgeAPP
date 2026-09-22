@@ -45,6 +45,9 @@ internal static class NativeMethods
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     internal delegate nint WindowProcedure(nint window, uint message, nuint wParam, nint lParam);
 
+    [UnmanagedFunctionPointer(CallingConvention.Winapi)]
+    internal delegate nint HookProcedure(int code, nuint wParam, nint lParam);
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     internal struct WindowClass
     {
@@ -65,6 +68,26 @@ internal static class NativeMethods
     {
         internal int X;
         internal int Y;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct MouseHookData
+    {
+        internal Point Point;
+        internal uint MouseData;
+        internal uint Flags;
+        internal uint Time;
+        internal nuint ExtraInfo;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct KeyboardHookData
+    {
+        internal uint VirtualKey;
+        internal uint ScanCode;
+        internal uint Flags;
+        internal uint Time;
+        internal nuint ExtraInfo;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -306,6 +329,19 @@ internal static class NativeMethods
 
     [DllImport("kernel32.dll")]
     internal static extern nint GlobalFree(nint memory);
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowsHookExW", SetLastError = true)]
+    internal static extern nint SetWindowsHookEx(int hookType, HookProcedure procedure, nint module, uint threadId);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool UnhookWindowsHookEx(nint hook);
+
+    [DllImport("user32.dll")]
+    internal static extern nint CallNextHookEx(nint hook, int code, nuint wParam, nint lParam);
+
+    [DllImport("user32.dll")]
+    internal static extern uint GetWindowThreadProcessId(nint window, out uint processId);
 
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern uint SendInput(uint inputCount, Input[] inputs, int inputSize);

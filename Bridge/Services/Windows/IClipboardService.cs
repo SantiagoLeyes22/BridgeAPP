@@ -6,7 +6,8 @@ public interface IClipboardService
 {
     Task<SelectedTextCapture?> CaptureSelectedTextAsync(
         nint sourceWindow,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken,
+        bool restoreSourceWindow = true);
 
     Task CopyTextAsync(string text, CancellationToken cancellationToken);
 

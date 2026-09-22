@@ -6,6 +6,8 @@ public sealed class AppSettings
 
     public string PrimaryLanguageCode { get; set; } = "es";
 
+    public string? LastTargetLanguageCode { get; set; }
+
     public bool StartWithWindows { get; set; }
 
     public bool ShowFailureNotifications { get; set; } = true;
@@ -20,7 +22,15 @@ public sealed class AppSettings
 
     private static string GetDefaultConfigurationLanguage()
     {
-        var code = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        var culture = System.Globalization.CultureInfo.CurrentUICulture;
+        if (culture.Name.Equals("pt-BR", StringComparison.OrdinalIgnoreCase) ||
+            culture.TwoLetterISOLanguageName.Equals("pt", StringComparison.OrdinalIgnoreCase))
+        {
+            // Brazilian Portuguese is the supported Portuguese UI variant.
+            return "pt";
+        }
+
+        var code = culture.TwoLetterISOLanguageName;
         return code is "es" or "en" or "pt" ? code : "en";
     }
 }

@@ -33,10 +33,10 @@ public static class OnboardingLocalizer
         {
             ("es", "es") => "Español",
             ("es", "en") => "Inglés",
-            ("es", "pt") => "Portugués",
+            ("es", "pt") => "Portugués (Brasil)",
             ("pt", "es") => "Espanhol",
             ("pt", "en") => "Inglês",
-            ("pt", "pt") => "Português",
+            ("pt", "pt") => "Português (Brasil)",
             _ => language.DisplayName
         };
 

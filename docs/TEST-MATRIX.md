@@ -6,7 +6,7 @@ Run this matrix on a Windows 11 endpoint. The standard offline engine must work 
 
 - [ ] Debug and Release x64 builds complete with zero errors.
 - [ ] First launch shows welcome, primary-language, and engine-selection screens.
-- [ ] The welcome screen offers Español, English, and Português as setup languages.
+- [ ] The welcome screen offers Español, English, and Português (Brasil) as setup languages.
 - [ ] Changing the setup language immediately localizes all three onboarding screens without changing the selected primary translation language.
 - [ ] The setup-language selection remains after restarting the application.
 - [ ] The engine screen shows detected RAM, logical CPU cores, free disk, and a compatibility result.
@@ -24,8 +24,8 @@ Run this matrix on a Windows 11 endpoint. The standard offline engine must work 
 - [ ] Initial setup downloads the Firefox/Bergamot model pack and displays progress.
 - [ ] A completely fresh `%LOCALAPPDATA%\Bridge` installation creates the nested model directory before touching marker files.
 - [ ] After the pack is ready, disconnect the network and restart the app.
-- [ ] English, Spanish, and Portuguese translations continue to work offline.
-- [ ] Spanish ↔ Portuguese translation works through the local English pivot.
+- [ ] English, Spanish, and Brazilian Portuguese translations continue to work offline.
+- [ ] Spanish ↔ Brazilian Portuguese translation works through the local English pivot.
 
 ### TranslateGemma 4B, 12B, and 27B
 
@@ -67,12 +67,21 @@ For each application:
 5. Copy the translation.
 6. Write a response in the primary language and select it.
 7. Press `Ctrl + Shift + Enter`.
-8. Confirm the target is the previous incoming language.
+8. Confirm the target is English before any manual choice, or the last target language chosen in the overlay.
 9. Choose Replace.
 10. Confirm only the selection changed and no message was sent.
 
+After choosing a target language in the overlay, repeat both shortcuts and confirm they use that language. Restart Bridge and confirm the same language is still selected for both shortcuts. Choose another target language and confirm the shared preference updates.
+
 Also hold `Ctrl + Shift` briefly after pressing each hotkey and confirm capture begins only after the keys are released. Repeat both translation actions from the tray menu and confirm focus returns to the original application before Copy is sent.
 
+### Automatic selection while the overlay is open
+
+- [ ] Open the overlay with `Ctrl + Shift + T`, then drag-select different text in the source app. Confirm the overlay updates without pressing the shortcut again and keeps its target language.
+- [ ] Open the overlay with `Ctrl + Shift + Enter` and repeat with a double-click, Shift + arrow keys, and Ctrl + A. Confirm each completed selection updates the result in response mode.
+- [ ] A normal click or typing with Shift does not start a translation.
+- [ ] The source app keeps focus after an automatic translation; Replace changes only the latest selection.
+- [ ] Close the overlay, select more text, and confirm no automatic translation starts.
 ## Acceptance scenario
 
 Primary language: Spanish.
@@ -81,9 +90,11 @@ Primary language: Spanish.
 2. Press `Ctrl + Shift + T`.
 3. Expect Portuguese → Spanish and a translation equivalent to `Mi computadora no está sincronizando la contraseña después del cambio.`
 4. Select `Reiniciá la computadora y probá nuevamente conectado a la VPN.`
-5. Press `Ctrl + Shift + Enter`.
-6. Expect Spanish → Portuguese and a translation equivalent to `Reinicie o computador e tente novamente conectado à VPN.`
+5. Press `Ctrl + Shift + Enter` and confirm English is selected initially.
+6. Choose Brazilian Portuguese in the overlay and expect Spanish → Portuguese with a translation equivalent to `Reinicie o computador e tente novamente conectado à VPN.`
 7. Choose Replace and confirm the Spanish selection becomes Portuguese without sending.
+8. Select another Spanish response and press `Ctrl + Shift + Enter`; confirm Brazilian Portuguese is used immediately.
+9. Restart Bridge, press `Ctrl + Shift + T` on another selection, and confirm Brazilian Portuguese remains the selected target.
 
 ## Technical terminology
 

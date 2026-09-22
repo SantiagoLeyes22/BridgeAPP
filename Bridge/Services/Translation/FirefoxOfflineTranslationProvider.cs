@@ -65,9 +65,7 @@ public sealed class FirefoxOfflineTranslationProvider : ITranslationProvider, ID
         }
 
         var source = _languageDetector.Detect(text);
-        var target = LanguageDefinition.Supported.FirstOrDefault(language =>
-                         string.Equals(language.DisplayName, targetLanguageName, StringComparison.OrdinalIgnoreCase))
-                     ?? LanguageDefinition.FindByCode(targetLanguageName)
+        var target = LanguageDefinition.Find(targetLanguageName)
                      ?? LanguageDefinition.Spanish;
 
         if (source.Code == target.Code)
