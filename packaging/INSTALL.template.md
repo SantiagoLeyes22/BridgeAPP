@@ -1,4 +1,4 @@
-# Bridge @@VERSION@@ — instalación de prueba / test installation
+# Bridge @@VERSION@@ — instalación de prueba / test installation / instalação de teste
 
 Este paquete contiene Bridge para Windows x64 y sus runtimes. No incluye Ollama
 ni ningún modelo TranslateGemma.
@@ -59,3 +59,32 @@ Microsoft Store signing or a publicly trusted code-signing certificate.
 If you select TranslateGemma, Bridge opens the official Ollama page. Ollama is
 installed separately, and the model is downloaded after accepting its terms.
 The standard offline engine does not require Ollama.
+
+## Português (Brasil) — instalação pela interface gráfica
+
+1. Confirme que `Bridge_@@VERSION@@_x64.msix` e `Bridge-TestCertificate.cer`
+   vieram da mesma versão publicada oficialmente.
+2. Abra `Bridge-TestCertificate.cer` e selecione **Instalar Certificado**.
+3. Selecione **Computador Local** e autorize a solicitação de administrador.
+4. Selecione **Colocar todos os certificados no repositório a seguir**.
+5. Escolha **Pessoas Confiáveis** e conclua o assistente.
+6. Abra o arquivo `.msix`, selecione **Instalar** e inicie o Bridge pelo menu
+   Iniciar.
+
+Impressão digital SHA-1 esperada do certificado:
+
+`@@THUMBPRINT@@`
+
+Como alternativa, clique com o botão direito em `Install-Bridge.ps1`, selecione
+**Executar com PowerShell** e autorize a solicitação de administrador. O script
+confia temporariamente no certificado, instala o Bridge e depois remove essa
+confiança.
+
+Este certificado se destina apenas a testes. Instale-o somente se os arquivos
+foram baixados do repositório oficial do Bridge. Uma versão pública deverá usar
+a assinatura da Microsoft Store ou um certificado público de assinatura de
+código.
+
+Se você escolher TranslateGemma, o Bridge abrirá a página oficial do Ollama. O
+Ollama é instalado separadamente e o modelo é baixado depois que seus termos
+são aceitos. O mecanismo offline padrão não exige Ollama.

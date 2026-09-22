@@ -12,20 +12,20 @@ La aplicación puede trabajar de forma local y privada. No guarda un historial d
 
 La compilación actual es una versión de prueba x64 firmada con un certificado autofirmado:
 
-- [Descargar el paquete completo recomendado](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64_test-bundle.zip)
-- [Descargar solamente el MSIX](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64.msix)
-- [Descargar el certificado de prueba](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge-TestCertificate.cer)
+- [Descargar el paquete completo recomendado](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge_1.0.1.0_x64_test-bundle.zip)
+- [Descargar solamente el MSIX](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge_1.0.1.0_x64.msix)
+- [Descargar el certificado de prueba](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge-TestCertificate.cer)
 
 > **Importante:** este paquete todavía no utiliza un certificado público. Windows necesita que el certificado de prueba se instale manualmente antes de abrir el MSIX. Instalalo únicamente si descargaste los archivos desde este repositorio oficial.
 
 ### Instalación gráfica, sin PowerShell
 
-1. Descargá `Bridge_1.0.0.0_x64.msix` y `Bridge-TestCertificate.cer` desde la misma Release.
+1. Descargá `Bridge_1.0.1.0_x64.msix` y `Bridge-TestCertificate.cer` desde la misma Release.
 2. Abrí `Bridge-TestCertificate.cer` y elegí **Instalar certificado**.
 3. Seleccioná **Equipo local** y aceptá el permiso de administrador.
 4. Elegí **Colocar todos los certificados en el siguiente almacén**.
 5. Seleccioná **Personas de confianza** y terminá el asistente.
-6. Abrí `Bridge_1.0.0.0_x64.msix` y seleccioná **Instalar**.
+6. Abrí `Bridge_1.0.1.0_x64.msix` y seleccioná **Instalar**.
 7. Buscá **Bridge** en el menú Inicio.
 
 El ZIP también incluye `Install-Bridge.ps1` como alternativa automática. El script solicita permisos de administrador, confía temporalmente en el certificado, instala Bridge y luego retira esa confianza.
@@ -69,20 +69,20 @@ The application can operate locally and privately. It does not store translation
 
 The current x64 test build is signed with a self-signed certificate:
 
-- [Download the recommended complete bundle](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64_test-bundle.zip)
-- [Download only the MSIX](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64.msix)
-- [Download the test certificate](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge-TestCertificate.cer)
+- [Download the recommended complete bundle](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge_1.0.1.0_x64_test-bundle.zip)
+- [Download only the MSIX](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge_1.0.1.0_x64.msix)
+- [Download the test certificate](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge-TestCertificate.cer)
 
 > **Important:** this package does not yet use a publicly trusted certificate. Windows requires the test certificate to be installed manually before opening the MSIX. Install it only when both files were downloaded from this official repository.
 
 ### Graphical installation without PowerShell
 
-1. Download `Bridge_1.0.0.0_x64.msix` and `Bridge-TestCertificate.cer` from the same Release.
+1. Download `Bridge_1.0.1.0_x64.msix` and `Bridge-TestCertificate.cer` from the same Release.
 2. Open `Bridge-TestCertificate.cer` and select **Install Certificate**.
 3. Select **Local Machine** and approve the administrator prompt.
 4. Select **Place all certificates in the following store**.
 5. Choose **Trusted People** and finish the wizard.
-6. Open `Bridge_1.0.0.0_x64.msix` and select **Install**.
+6. Open `Bridge_1.0.1.0_x64.msix` and select **Install**.
 7. Open **Bridge** from the Start menu.
 
 The ZIP also contains `Install-Bridge.ps1` as an automated alternative. The script requests administrator permission, temporarily trusts the certificate, installs Bridge, and then removes that trust.
@@ -126,20 +126,20 @@ O aplicativo pode funcionar localmente e de forma privada. Ele não armazena um 
 
 A versão de teste atual para x64 é assinada com um certificado autoassinado:
 
-- [Baixar o pacote completo recomendado](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64_test-bundle.zip)
-- [Baixar apenas o MSIX](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge_1.0.0.0_x64.msix)
-- [Baixar o certificado de teste](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.0-test/Bridge-TestCertificate.cer)
+- [Baixar o pacote completo recomendado](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge_1.0.1.0_x64_test-bundle.zip)
+- [Baixar apenas o MSIX](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge_1.0.1.0_x64.msix)
+- [Baixar o certificado de teste](https://github.com/SantiagoLeyes22/BridgeAPP/releases/download/v1.0.1-test/Bridge-TestCertificate.cer)
 
 > **Importante:** este pacote ainda não usa um certificado de uma autoridade confiável. O Windows exige a instalação manual do certificado de teste antes de abrir o MSIX. Instale-o somente se você baixou os arquivos deste repositório oficial.
 
 ### Instalação pela interface gráfica, sem PowerShell
 
-1. Baixe `Bridge_1.0.0.0_x64.msix` e `Bridge-TestCertificate.cer` da mesma versão publicada.
+1. Baixe `Bridge_1.0.1.0_x64.msix` e `Bridge-TestCertificate.cer` da mesma versão publicada.
 2. Abra `Bridge-TestCertificate.cer` e selecione **Instalar Certificado**.
 3. Selecione **Computador Local** e autorize a solicitação de administrador.
 4. Selecione **Colocar todos os certificados no repositório a seguir**.
 5. Escolha **Pessoas Confiáveis** e conclua o assistente.
-6. Abra `Bridge_1.0.0.0_x64.msix` e selecione **Instalar**.
+6. Abra `Bridge_1.0.1.0_x64.msix` e selecione **Instalar**.
 7. Procure **Bridge** no menu Iniciar.
 
 O ZIP também inclui `Install-Bridge.ps1` como alternativa automática. O script solicita permissão de administrador, confia temporariamente no certificado, instala o Bridge e depois remove essa confiança.
@@ -207,7 +207,7 @@ dotnet run --project .\Bridge.Tests\Bridge.Tests.csproj -c Release -p:Platform=x
 ### Build a test MSIX
 
 ```powershell
-.\tools\Build-Msix.ps1 -Version 1.0.0.0
+.\tools\Build-Msix.ps1 -Version 1.0.1.0
 ```
 
 The script publishes a self-contained x64 build, creates the MSIX assets, packages the application, and signs it with an isolated test certificate. Output is written to `artifacts\msix`. Public releases must replace this generated certificate with Microsoft Store signing or a publicly trusted code-signing certificate.
