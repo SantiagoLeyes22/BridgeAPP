@@ -71,7 +71,7 @@ For each application:
 9. Choose Replace.
 10. Confirm only the selection changed and no message was sent.
 
-After choosing a target language in the overlay, repeat both shortcuts and confirm they use that language. Restart Bridge and confirm the same language is still selected for both shortcuts. Choose another target language and confirm the shared preference updates.
+After choosing a target language in response mode, repeat `Ctrl + Shift + Enter` and confirm it uses that language. Press `Ctrl + Shift + T` and confirm it still uses the configured primary language. Restart Bridge and confirm each shortcut keeps its respective behavior.
 
 Also hold `Ctrl + Shift` briefly after pressing each hotkey and confirm capture begins only after the keys are released. Repeat both translation actions from the tray menu and confirm focus returns to the original application before Copy is sent.
 
@@ -94,7 +94,7 @@ Primary language: Spanish.
 6. Choose Brazilian Portuguese in the overlay and expect Spanish → Portuguese with a translation equivalent to `Reinicie o computador e tente novamente conectado à VPN.`
 7. Choose Replace and confirm the Spanish selection becomes Portuguese without sending.
 8. Select another Spanish response and press `Ctrl + Shift + Enter`; confirm Brazilian Portuguese is used immediately.
-9. Restart Bridge, press `Ctrl + Shift + T` on another selection, and confirm Brazilian Portuguese remains the selected target.
+9. Restart Bridge, press `Ctrl + Shift + T` on another selection, and confirm Spanish is selected because it is the configured primary language.
 
 ## Technical terminology
 

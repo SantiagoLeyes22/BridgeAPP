@@ -21,7 +21,7 @@ var tests = new (string Name, Action Execute)[]
     ("Ships the three V1 languages", SupportsRequiredLanguages),
     ("Applies a bounded V1 input limit", EnforcesInputLimit),
     ("Defaults response translation to English", DefaultsResponseTranslationToEnglish),
-    ("Remembers the chosen language for both shortcuts", RemembersChosenLanguageForBothShortcuts),
+    ("Keeps shortcut language preferences separate", KeepsShortcutLanguagePreferencesSeparate),
     ("Recognizes completed selections without triggering on ordinary clicks", RecognizesCompletedSelections),
     ("Defaults translation style to balanced", DefaultsTranslationStyleToBalanced),
     ("Defaults to the no-login offline engine", DefaultsToOfflineEngine),
@@ -140,7 +140,7 @@ static void EnforcesInputLimit() => Equal(8_000, TranslationCoordinator.MaximumI
 static void DefaultsResponseTranslationToEnglish() =>
     Equal("en", TranslationCoordinator.DefaultResponseLanguageCode);
 
-static void RemembersChosenLanguageForBothShortcuts()
+static void KeepsShortcutLanguagePreferencesSeparate()
 {
     var settings = new AppSettings { PrimaryLanguageCode = "es" };
     Equal("es", TranslationTargetLanguagePreference.Resolve(settings, TranslationHotkey.TranslateSelection).Code);
@@ -148,8 +148,15 @@ static void RemembersChosenLanguageForBothShortcuts()
 
     settings.LastTargetLanguageCode = "pt";
     var restored = JsonSerializer.Deserialize<AppSettings>(JsonSerializer.Serialize(settings))!;
-    Equal("pt", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateSelection).Code);
+    Equal("es", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateSelection).Code);
     Equal("pt", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateResponse).Code);
+
+    restored.PrimaryLanguageCode = "en";
+    Equal("en", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateSelection).Code);
+    Equal("pt", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateResponse).Code);
+
+    restored.PrimaryLanguageCode = "unsupported";
+    Equal("es", TranslationTargetLanguagePreference.Resolve(restored, TranslationHotkey.TranslateSelection).Code);
 }
 
 static void RecognizesCompletedSelections()

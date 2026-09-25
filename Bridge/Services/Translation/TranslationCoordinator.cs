@@ -230,7 +230,10 @@ public sealed class TranslationCoordinator : IDisposable
                 return;
             }
 
-            var target = TranslationTargetLanguagePreference.Resolve(_settingsService.Settings, hotkey);
+            var target = automatic
+                ? LanguageDefinition.FindByCode(_currentResult?.TargetLanguageCode) ??
+                  TranslationTargetLanguagePreference.Resolve(_settingsService.Settings, hotkey)
+                : TranslationTargetLanguagePreference.Resolve(_settingsService.Settings, hotkey);
             await TranslateCaptureAsync(capture, target, hotkey, cancellationToken, automatic);
         }
         catch (OperationCanceledException)
@@ -330,7 +333,8 @@ public sealed class TranslationCoordinator : IDisposable
             return;
         }
 
-        if (_currentResult is not null &&
+        if (_openMode == TranslationHotkey.TranslateResponse &&
+            _currentResult is not null &&
             !string.Equals(options.TargetLanguage.Code, _currentResult.TargetLanguageCode, StringComparison.OrdinalIgnoreCase))
         {
             _settingsService.Settings.LastTargetLanguageCode = options.TargetLanguage.Code;
